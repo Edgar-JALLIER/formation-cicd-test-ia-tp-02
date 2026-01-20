@@ -1,41 +1,38 @@
 package com.devops.cicd.user;
 
-public class User {
+import com.devops.cicd.PasswordPolicy;
 
+public class User {
     private final String email;
     private final String password;
     private final Role role;
 
     public User(String email, String password, Role role) {
-        // TODO: appliquer toutes les règles de validation de la spec
-        // - email: obligatoire, trim, format simple
-        // - password: obligatoire, strong (PasswordPolicy.isStrong)
-        // - role: obligatoire (non null)
-        //
-        // En cas d'erreur: IllegalArgumentException avec un message explicite
-        // ("email must be valid", "password must be strong", "role must not be null")
+        EmailValidator.validate(email);
+        validatePassword(password);    
+        validateRole(role);
 
-        this.email = email;       // TODO: email doit être normalisé (trim)
-        this.password = password; // TODO: password ne doit pas être modifié
-        this.role = role;         // TODO: role non null
+        this.email = email.trim();
+        this.password = password;
+        this.role = role;
     }
 
-    public String getEmail() {
-        return email;
+
+    private void validatePassword(String password) {
+        if (password == null || password.trim().isEmpty() || !PasswordPolicy.isStrong(password)) {
+            throw new IllegalArgumentException("password must be strong");
+        }
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public Role getRole() {
-        return role;
+    private void validateRole(Role role) {
+        if (role == null) throw new IllegalArgumentException("role must not be null");
     }
 
     public boolean canAccessAdminArea() {
-        // TODO: true uniquement si role == ADMIN
-        return false;
+        return this.role == Role.ADMIN;
     }
 
-    // BONUS: vous pouvez ajouter equals/hashCode/toString si utile (non obligatoire)
+    // Getters
+    public String getEmail() { return email; }
+    public Role getRole() { return role; }
 }
