@@ -14,7 +14,7 @@ Elle aide, mais ne décide pas à votre place.
 
 ## Contexte du projet
 
-Vous travaillez sur un projet Java Maven existant.
+Vous travaillez sur un projet Java Maven existant
 De nouvelles fonctionnalités doivent être développées autour de la gestion d’utilisateurs.
 
 Pour ce TP :
